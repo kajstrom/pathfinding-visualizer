@@ -12,11 +12,17 @@ class App extends Component {
         rows: 10,
         columns: 10
       },
-      map: createMap(10, 10)
+      map: createMap(10, 10),
+      start: null,
+      goal: null
     };
   }
 
   handleSettingsChange = (field, value) => this.setState({ settings: { ...this.state.settings, [field]: value } });
+
+  handleStartChange = (start) => this.setState({ start });
+
+  handleGoalChange = (goal) => this.setState({ goal });
 
   handlePassableToggle = (tile) => {
     this.setState({ map: toggleTileType(this.state.map, tile.x, tile.y) });
@@ -30,7 +36,14 @@ class App extends Component {
           columns={this.state.settings.columns}
           onChange={this.handleSettingsChange}
         />
-        <Map map={this.state.map} onTilePassableToggle={this.handlePassableToggle} />
+        <Map
+          start={this.state.start}
+          goal={this.state.goal}
+          map={this.state.map}
+          onTilePassableToggle={this.handlePassableToggle}
+          onStartChange={this.handleStartChange}
+          onGoalChange={this.handleGoalChange}
+          />
       </div>
     );
   }
