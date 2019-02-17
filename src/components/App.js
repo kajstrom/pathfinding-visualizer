@@ -18,7 +18,9 @@ class App extends Component {
     };
   }
 
-  handleSettingsChange = (field, value) => this.setState({ settings: { ...this.state.settings, [field]: value } });
+  handleSettingsChange = (field, value) => this.setState({ settings: { ...this.state.settings, [field]: value } }, () => {
+    this.setState({ map: createMap(this.state.settings.rows, this.state.settings.columns) })
+  });
 
   handleStartChange = (start) => this.setState({ start });
 
