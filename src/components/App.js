@@ -3,6 +3,7 @@ import SettingsForm from "./SettingsForm";
 import Map from "./Map";
 import createMap from "../domain/map/create";
 import toggleTileType from "../domain/map/toggleTileType";
+import runDijkstra from "../domain/algorithms/dijkstra";
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +31,12 @@ class App extends Component {
     this.setState({ map: toggleTileType(this.state.map, tile.x, tile.y) });
   }
 
+  handleRun = () => {
+    const { map, start, goal } = this.state;
+
+    runDijkstra(map, start, goal);
+  }
+
   render() {
     return (
       <div className="App">
@@ -37,6 +44,7 @@ class App extends Component {
           rows={this.state.settings.rows}
           columns={this.state.settings.columns}
           onChange={this.handleSettingsChange}
+          onRun={this.handleRun}
         />
         <Map
           start={this.state.start}

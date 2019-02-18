@@ -7,7 +7,9 @@ export default (rows, columns) => {
       rowTiles.push({
         x: column,
         y: row,
-        type: "passable"
+        type: "passable",
+        status: "none",
+        neighbors: []
       });
     }
 
