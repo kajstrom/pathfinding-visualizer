@@ -15,7 +15,10 @@ function findTile(x, y, map) {
  * @return Returns start coordinates tile as root
  */
 function toGraph(map) {
-  const graph = map.flat().map((tile) => {
+  const graph = map
+  .flat()
+  .filter(tile => tile.type === "passable")  
+  .map((tile) => {
     const { x, y } = tile;
       let neighbors = [
         findTile(x, y - 1, map),
