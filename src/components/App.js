@@ -41,21 +41,21 @@ class App extends Component {
 
     const {shortestPath, visited} = dijkstra(cloneDeep(map), start, goal);
 
-    if (shortestPath) {
-      this.setState(state => {
-        const map = cloneDeep(state.map);
+    this.setState(state => {
+      const map = cloneDeep(state.map);
 
+      if (shortestPath) {
         shortestPath.forEach(({x, y}) => {
           map[y][x].onShortestPath = true;
         });
+      }
 
-        visited.forEach(({x, y}) => {
-          map[y][x].visited = true;
-        })
+      visited.forEach(({x, y}) => {
+        map[y][x].visited = true;
+      })
 
-        return { map };
-      });
-    }
+      return { map };
+    });
   }
 
   render() {

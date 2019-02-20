@@ -17,15 +17,17 @@ function backtrack(current, source) {
 }
 
 function dijkstra(graph, source, target) {
-  let queue = [...graph];
+  let queue = [];
   const visited = [];
 
   for (let i = 0; i < graph.length; i++) {
     graph[i].dist = Infinity;
     graph[i].prev = null;
+    graph[i].visited = false;
   }
 
   source.dist = 0;
+  queue.push(source);
 
   while (queue.length !== 0) {
     const current = queue.reduce((carry, tile) => {
@@ -36,6 +38,7 @@ function dijkstra(graph, source, target) {
       return carry;
     });
     visited.push(current);
+    current.visited = true;
 
     if (current.x === target.x && current.y === target.y) {
       return {
@@ -50,6 +53,10 @@ function dijkstra(graph, source, target) {
 
     current.neighbors.forEach((tile) => {
       const altDist = current.dist + 1;
+
+      if (tile.visited === false) {
+        queue.push(tile);
+      }
 
       if (altDist < tile.dist) {
         tile.dist = altDist;
