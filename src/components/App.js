@@ -39,7 +39,7 @@ class App extends Component {
   handleRun = () => {
     const { map, start, goal } = this.state;
 
-    const shortestPath = dijkstra(cloneDeep(map), start, goal);
+    const {shortestPath, visited} = dijkstra(cloneDeep(map), start, goal);
 
     if (shortestPath) {
       this.setState(state => {
@@ -48,6 +48,10 @@ class App extends Component {
         shortestPath.forEach(({x, y}) => {
           map[y][x].onShortestPath = true;
         });
+
+        visited.forEach(({x, y}) => {
+          map[y][x].visited = true;
+        })
 
         return { map };
       });

@@ -18,6 +18,7 @@ function backtrack(current, source) {
 
 function dijkstra(graph, source, target) {
   let queue = [...graph];
+  const visited = [];
 
   for (let i = 0; i < graph.length; i++) {
     graph[i].dist = Infinity;
@@ -34,9 +35,13 @@ function dijkstra(graph, source, target) {
 
       return carry;
     });
+    visited.push(current);
 
     if (current.x === target.x && current.y === target.y) {
-      return backtrack(current, source);
+      return {
+        visited,
+        shortestPath: backtrack(current, source)
+      }
     }
 
     queue = queue.filter(tile => {
@@ -53,7 +58,7 @@ function dijkstra(graph, source, target) {
     });
   }
 
-  return null;
+  return { visited, shortestPath: null };
 }
 
 export default (map, start, goal) => {
