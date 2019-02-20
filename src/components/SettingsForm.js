@@ -12,6 +12,7 @@ const SettingsForm = (props) => {
     <input type="number" value={props.rows} name="rows" onChange={onChange} />
     <input type="number" value={props.columns} name="columns" onChange={onChange} />
     <button onClick={props.onRun}>Run!</button>
+    <button onClick={props.onReset}>Reset!</button>
   </div>
 }
 

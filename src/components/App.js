@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import cloneDeep from 'clone-deep';
 import SettingsForm from "./SettingsForm";
 import Map from "./Map";
 import createMap from "../domain/map/create";
 import toggleTileType from "../domain/map/toggleTileType";
-import runDijkstra from "../domain/algorithms/dijkstra";
+import dijkstra from "../domain/algorithms/dijkstra";
 
 class App extends Component {
   constructor(props) {
@@ -31,10 +32,26 @@ class App extends Component {
     this.setState({ map: toggleTileType(this.state.map, tile.x, tile.y) });
   }
 
+  handleReset = () => this.setState(state => {
+    return { map: createMap(state.settings.rows, state.settings.columns) }
+  });
+
   handleRun = () => {
     const { map, start, goal } = this.state;
 
-    runDijkstra(map, start, goal);
+    const shortestPath = dijkstra(cloneDeep(map), start, goal);
+
+    if (shortestPath) {
+      this.setState(state => {
+        const map = cloneDeep(state.map);
+
+        shortestPath.forEach(({x, y}) => {
+          map[y][x].onShortestPath = true;
+        });
+
+        return { map };
+      });
+    }
   }
 
   render() {
@@ -45,6 +62,7 @@ class App extends Component {
           columns={this.state.settings.columns}
           onChange={this.handleSettingsChange}
           onRun={this.handleRun}
+          onReset={this.handleReset}
         />
         <Map
           start={this.state.start}

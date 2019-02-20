@@ -44,6 +44,10 @@ class Tile extends React.Component {
   getStyle = (tile) => {
     const style = { width: "20px", height: "20px", border: "1px solid black", display: "inline-block" };
   
+    if (tile.onShortestPath) {
+      style.backgroundColor = "green";
+    }
+
     if (tile.type === "impassable") {
       style.backgroundColor = "black";
     }
