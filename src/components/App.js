@@ -12,7 +12,8 @@ class App extends Component {
     this.state = {
       settings: {
         rows: 10,
-        columns: 10
+        columns: 10,
+        algorithm: "dijkstra"
       },
       map: createMap(10, 10),
       start: null,
@@ -39,7 +40,19 @@ class App extends Component {
   handleRun = () => {
     const { map, start, goal } = this.state;
 
-    const {shortestPath, visited} = dijkstra(cloneDeep(map), start, goal);
+    let path;
+
+    const algorithm = this.state.settings.algorithm;
+    if (algorithm === "dijkstra") {
+      path = dijkstra(cloneDeep(map), start, goal);
+    } else if (this.state.algorithm === "a*") {
+      console.log("Not implemented");
+      return;
+    } else {
+      throw new Error(`No such algorithm: ${algorithm}`);
+    }
+
+    const { shortestPath, visited } = path;
 
     this.setState(state => {
       const map = cloneDeep(state.map);
