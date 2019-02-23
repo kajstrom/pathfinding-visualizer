@@ -17,6 +17,7 @@ const SettingsForm = (props) => {
     </select>
     <button onClick={props.onRun}>Run!</button>
     <button onClick={props.onReset}>Reset!</button>
+    <button onClick={props.onStatusReset}>Reset status!</button>
   </div>
 }
 

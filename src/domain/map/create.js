@@ -8,7 +8,6 @@ export default (rows, columns) => {
         x: column,
         y: row,
         type: "passable",
-        status: "none",
         neighbors: []
       });
     }

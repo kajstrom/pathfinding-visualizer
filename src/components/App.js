@@ -22,9 +22,20 @@ class App extends Component {
     };
   }
 
-  handleSettingsChange = (field, value) => this.setState({ settings: { ...this.state.settings, [field]: value } }, () => {
-    this.setState({ map: createMap(this.state.settings.rows, this.state.settings.columns) })
-  });
+  handleSettingsChange = (field, value) => {
+    const dimensionsChanged = field === "rows" || field === "columns";
+
+    let afterStateFn;
+    if (dimensionsChanged) {
+      afterStateFn = () => {
+        this.setState({ map: createMap(this.state.settings.rows, this.state.settings.columns) })
+      };
+    } else {
+      afterStateFn = this.handleStatusReset;
+    }
+
+    this.setState({ settings: { ...this.state.settings, [field]: value } }, afterStateFn);
+  };
 
   handleStartChange = (start) => this.setState({ start });
 
@@ -37,6 +48,12 @@ class App extends Component {
   handleReset = () => this.setState(state => {
     return { map: createMap(state.settings.rows, state.settings.columns) }
   });
+
+  handleStatusReset = () => {
+    const map = this.state.map;
+
+    this.setState({ map: map.map(tileRow => tileRow.map(tile => { return { ...tile, visited: false, onShortestPath: false }; })) });
+  }
 
   handleRun = () => {
     const { map, start, goal } = this.state;
@@ -80,6 +97,7 @@ class App extends Component {
           onChange={this.handleSettingsChange}
           onRun={this.handleRun}
           onReset={this.handleReset}
+          onStatusReset={this.handleStatusReset}
         />
         <Map
           start={this.state.start}
