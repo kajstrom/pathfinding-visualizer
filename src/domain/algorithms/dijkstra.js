@@ -1,20 +1,5 @@
 import toGraph from "../map/toGraph";
-
-function backtrack(current, source) {
-  const shortestPath = [];
-      let u = current;
-
-      if (u.prev !== null || (u === source)) {
-        while (u) {
-          shortestPath.push(u);
-          u = u.prev
-        }
-
-        return shortestPath.reverse();
-      }
-
-      return null;
-}
+import backtrack from "./backtrack";
 
 function dijkstra(graph, source, target) {
   let queue = [];

@@ -5,6 +5,7 @@ import Map from "./Map";
 import createMap from "../domain/map/create";
 import toggleTileType from "../domain/map/toggleTileType";
 import dijkstra from "../domain/algorithms/dijkstra";
+import aStar from "../domain/algorithms/astar";
 
 class App extends Component {
   constructor(props) {
@@ -45,9 +46,8 @@ class App extends Component {
     const algorithm = this.state.settings.algorithm;
     if (algorithm === "dijkstra") {
       path = dijkstra(cloneDeep(map), start, goal);
-    } else if (this.state.algorithm === "a*") {
-      console.log("Not implemented");
-      return;
+    } else if (algorithm === "a*") {
+      path = aStar(cloneDeep(map), start, goal);
     } else {
       throw new Error(`No such algorithm: ${algorithm}`);
     }
