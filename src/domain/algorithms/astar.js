@@ -64,6 +64,8 @@ function aStar(graph, source, target) {
       neighbor.fScore = neighbor.gScore + manhattanDistance(neighbor, target);
     });
   }
+
+  return { shortestPath: null, visited };
 }
 
 export default (map, start, goal) => {

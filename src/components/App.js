@@ -18,7 +18,10 @@ class App extends Component {
       },
       map: createMap(10, 10),
       start: null,
-      goal: null
+      goal: null,
+      pathLength: null,
+      visitedTiles: null,
+      executionTime: null
     };
   }
 
@@ -60,6 +63,7 @@ class App extends Component {
 
     let path;
 
+    const startTime = new Date();
     const algorithm = this.state.settings.algorithm;
     if (algorithm === "dijkstra") {
       path = dijkstra(cloneDeep(map), start, goal);
@@ -68,23 +72,26 @@ class App extends Component {
     } else {
       throw new Error(`No such algorithm: ${algorithm}`);
     }
+    const endTime = new Date();
 
     const { shortestPath, visited } = path;
 
     this.setState(state => {
       const map = cloneDeep(state.map);
+      let pathLength = 0;
 
       if (shortestPath) {
         shortestPath.forEach(({x, y}) => {
           map[y][x].onShortestPath = true;
         });
+        pathLength = shortestPath.length;
       }
 
       visited.forEach(({x, y}) => {
         map[y][x].visited = true;
       })
 
-      return { map };
+      return { map, pathLength, visitedTiles: visited.length, executionTime: endTime - startTime };
     });
   }
 
@@ -99,6 +106,11 @@ class App extends Component {
           onReset={this.handleReset}
           onStatusReset={this.handleStatusReset}
         />
+        <div>
+          Path length: {this.state.pathLength} <br />
+          Visited tiles: {this.state.visitedTiles} <br />
+          Time: {this.state.executionTime} ms<br />
+        </div>
         <Map
           start={this.state.start}
           goal={this.state.goal}
