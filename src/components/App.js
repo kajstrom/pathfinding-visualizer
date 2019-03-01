@@ -31,7 +31,7 @@ class App extends Component {
     let afterStateFn;
     if (dimensionsChanged) {
       afterStateFn = () => {
-        this.setState({ map: createMap(this.state.settings.rows, this.state.settings.columns) })
+        this.setState({ map: createMap(this.state.settings.rows || 1, this.state.settings.columns || 1) })
       };
     } else {
       afterStateFn = this.handleStatusReset;

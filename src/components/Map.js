@@ -4,7 +4,7 @@ import Tile from "./Tile";
 const Map = (props) => {
   return <div>
     {props.map.map(rowTiles => {
-      return <div key={rowTiles[0].y} style={{height: "21px"}}>
+      return <div key={rowTiles[0].y} style={{height: "21px", whiteSpace: "nowrap"}}>
         {rowTiles.map(tile => <Tile key={`${tile.y}-${tile.x}`}
           onPassableToggle={props.onTilePassableToggle}
           tile={tile}
