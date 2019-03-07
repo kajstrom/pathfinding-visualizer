@@ -110,6 +110,7 @@ class App extends Component {
           Path length: {this.state.pathLength} <br />
           Visited tiles: {this.state.visitedTiles} <br />
           Time: {this.state.executionTime} ms<br />
+          Click on a tile to toggle passable/unpassable. Press "S" while hovering the cursor a tile to set the starting point and "G" to set the goal.
         </div>
         <Map
           start={this.state.start}
